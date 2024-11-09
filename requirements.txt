@@ -1,0 +1,9 @@
+torch==2.3.0
+torch_geometric
+pyg_lib
+torch_scatter
+torch_sparse
+torch_cluster
+torch_spline_conv
+torchdiffeq
+matplotlib
