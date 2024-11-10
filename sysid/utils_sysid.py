@@ -1,6 +1,6 @@
 import os
 import time
-from typing import Dict, Union, Any, Tuple
+from typing import Dict, Union, Any, Tuple, List
 
 import numpy as np
 import networkx as nx
@@ -84,7 +84,7 @@ def train(
         model: nn.Module,
         model_dir: str,
         epochs: int
-) -> nn.Module:
+) -> Tuple[nn.Module, List[float]]:
     edge_index_int = graph_obj["edge_index_int"]
     edge_index_bound = graph_obj["edge_index_bound"]
     edge_index_ctrl = graph_obj["edge_index_ctrl"]
@@ -93,9 +93,12 @@ def train(
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer=optimizer,
         patience=150,
-        factor=0.8,
-        verbose=True
+        factor=0.8
     )
+
+    prev_lr = optimizer.param_groups[0]["lr"]
+
+    losses = []
 
     model.train()
     best_epoch = 0
@@ -125,11 +128,19 @@ def train(
         else:
             loss = F.mse_loss(X_int_hat, batch_X_int)
 
+        losses.append(loss.item())
+
         # backpropagation
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         scheduler.step(loss.item())
+
+        current_lr = optimizer.param_groups[0]["lr"]
+        if current_lr != prev_lr:
+            print(f"====== epoch: {iteration}, Learning Rate changed to: {current_lr}")
+            prev_lr = current_lr
+
         if epoch < 10 or epoch % 50 == 0:
             print('epoch: {}, loss: {:.4f}, time: {:.1f}'.format(epoch, loss.item(), time.time() - s))
 
@@ -145,7 +156,7 @@ def train(
     print('[*] loading the best model and setting it to eval mode.')
     model.load_state_dict(torch.load(os.path.join(model_dir, f'bignode.pth')))
     model.eval()
-    return model
+    return model, losses
 
 
 def inference(
