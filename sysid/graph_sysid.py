@@ -23,7 +23,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def main():
     # Change this as needed:
-    SYSTEM_TYPE = "linear"
+    SYSTEM_TYPE = "nonlinear"
     REGULARIZATION = True
     if SYSTEM_TYPE == "linear":
         DATA_DIR = "data/linear"
@@ -37,7 +37,7 @@ def main():
         EXPERIMENT_NAME = "bignode_reg_nonlinear" if REGULARIZATION else "bignode_nonlinear"
     else:
         raise NotImplementedError
-    EPOCHS = 2000
+    EPOCHS = 20
 
     # Load graph data
     with open(os.path.join(DATA_DIR, "graph_obj.pickle"), "rb") as handle:
@@ -57,7 +57,7 @@ def main():
                       num_nodes_int=num_nodes_int, num_nodes_bound=num_nodes_bound, device=device)
 
     # Training
-    model = train(graph_obj=graph_obj,
+    model, losses = train(graph_obj=graph_obj,
                   system_data=system_data,
                   regularization=REGULARIZATION,
                   model=bignode,

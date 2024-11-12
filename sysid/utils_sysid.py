@@ -138,7 +138,7 @@ def train(
 
         current_lr = optimizer.param_groups[0]["lr"]
         if current_lr != prev_lr:
-            print(f"====== epoch: {iteration}, Learning Rate changed to: {current_lr}")
+            print(f"====== epoch: {epoch}, Learning Rate changed to: {current_lr}")
             prev_lr = current_lr
 
         if epoch < 10 or epoch % 50 == 0:
