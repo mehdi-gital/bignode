@@ -56,6 +56,7 @@ class BoundaryInjectedMessagePassingLayer(nn.Module):
 
 
 class DiffOp(nn.Module):
+    """Differential Operator"""
     def __init__(
             self,
             input_dim: int,
