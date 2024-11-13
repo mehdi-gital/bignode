@@ -37,7 +37,7 @@ def main():
         EXPERIMENT_NAME = "bignode_reg_nonlinear" if REGULARIZATION else "bignode_nonlinear"
     else:
         raise NotImplementedError
-    EPOCHS = 20
+    EPOCHS = 2000
 
     # Load graph data
     with open(os.path.join(DATA_DIR, "graph_obj.pickle"), "rb") as handle:
