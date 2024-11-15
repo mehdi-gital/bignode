@@ -1,15 +1,18 @@
+import sys
 import os
 import random
 import pickle
-
 import numpy as np
 import torch
 
-from bignode_no_ctrl import BIGNODE
-from utils_sysid import train, inference, compute_RMSE
-from utils_visualization import visualize_state_sysid
-from utils import experiment_init
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, ".."))
+sys.path.insert(0, project_root)
 
+from core.bignode_no_ctrl import BIGNODE
+from core.utils_sysid import train, inference, compute_RMSE
+from core.utils_visualization import visualize_state_sysid
+from core.utils import experiment_init
 
 random.seed(23)
 np.random.seed(23)
@@ -23,7 +26,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def main():
     # Change this as needed:
-    SYSTEM_TYPE = "nonlinear"
+    SYSTEM_TYPE = "linear"
     REGULARIZATION = True
     if SYSTEM_TYPE == "linear":
         DATA_DIR = "data/linear"
@@ -37,8 +40,7 @@ def main():
         EXPERIMENT_NAME = "bignode_reg_nonlinear" if REGULARIZATION else "bignode_nonlinear"
     else:
         raise NotImplementedError
-    EPOCHS = 2000
-
+    EPOCHS = 1500
     # Load graph data
     with open(os.path.join(DATA_DIR, "graph_obj.pickle"), "rb") as handle:
         graph_obj = pickle.load(handle)
