@@ -111,7 +111,7 @@ def main():
                                x_int_des=x_int_des,
                                X_bound=X_bound,
                                method=METHOD,
-                               max_iter=1000)
+                               max_iter=100)
     visualize_state_ocp(X_int_bigoc=X_int,
                         timestamps=optimizer.timestamps,
                         x_int_des=x_int_des,
