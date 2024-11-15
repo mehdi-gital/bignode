@@ -8,7 +8,7 @@ A general setup for deterministic system identification problems on graphs with 
 
 System requirements:
 - Python <= 3.12
-- Pip package manager
+- Pip package manager or alternative
 
 Simply run:
 ```
@@ -26,21 +26,25 @@ source .venv/bin/activate
 
 # Usage
 
-For system identification, dataset selection, hyperparameter optimization, go to `sysid/graph_sysid.py`. Once set, run it using:
+For system identification, dataset selection, hyperparameter optimization, go to `scripts/graph_sysid.py`. Once set, run it using:
 
 ```
-python sysid/graph_sysid.py
+python scripts/graph_sysid.py
+```
+
+For optimal control go to `scripts/graph_ocp.py`, and run:
+
+```
+python scripts/graph_ocp.py
 ```
 
 $ Demo
 
-A notebook tutorial on system identification in the linear case
+A notebook tutorial on system identification in the linear case is at:
 
 ```
 sysid/system_identification_linear_demo.ipynb
 ```
-
-
 
 # Paper
 
